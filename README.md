@@ -1,6 +1,6 @@
-# 브자재 발주 입고 관리 시스템
+# 부자재 발주 입고 관리 시스템
 
-브자재(원자재/부자재)의 발주, 입고, 재고를 효율적으로 관리하는 웹 기반 시스템입니다.
+부자재(원자재/부자재)의 발주, 입고, 재고를 효율적으로 관리하는 웹 기반 시스템입니다.
 
 ## 주요 기능
 
@@ -10,9 +10,9 @@
 - 진행 중인 발주 현황
 - 최근 입고 내역 확인
 
-### 2. 브자재 관리
-- 브자재 등록/수정/삭제
-- 브자재 코드, 명칭, 규격, 단위 관리
+### 2. 부자재 관리
+- 부자재 등록/수정/삭제
+- 부자재 코드, 명칭, 규격, 단위 관리
 - 표준단가 및 안전재고 설정
 - 현재고 실시간 조회
 
@@ -61,7 +61,7 @@ npm run init-db
 
 이 명령어는 다음을 수행합니다:
 - 데이터베이스 테이블 생성
-- 샘플 데이터 추가 (브자재 3개, 공급업체 2개)
+- 샘플 데이터 추가 (부자재 3개, 공급업체 2개)
 
 ### 3. 서버 실행
 
@@ -97,12 +97,12 @@ http://localhost:3000
 
 ## API 엔드포인트
 
-### 브자재 (Materials)
-- `GET /api/materials` - 브자재 목록 조회
-- `GET /api/materials/:id` - 브자재 상세 조회
-- `POST /api/materials` - 브자재 추가
-- `PUT /api/materials/:id` - 브자재 수정
-- `DELETE /api/materials/:id` - 브자재 삭제
+### 부자재 (Materials)
+- `GET /api/materials` - 부자재 목록 조회
+- `GET /api/materials/:id` - 부자재 상세 조회
+- `POST /api/materials` - 부자재 추가
+- `PUT /api/materials/:id` - 부자재 수정
+- `DELETE /api/materials/:id` - 부자재 삭제
 
 ### 공급업체 (Suppliers)
 - `GET /api/suppliers` - 공급업체 목록 조회
@@ -129,7 +129,7 @@ http://localhost:3000
 
 ## 데이터베이스 스키마
 
-### raw_materials (브자재)
+### raw_materials (부자재)
 - id, code, name, specification, unit
 - standard_price, safety_stock, current_stock
 - created_at, updated_at
@@ -162,12 +162,12 @@ http://localhost:3000
 
 ### 1. 초기 설정
 1. 공급업체 등록
-2. 브자재 등록
+2. 부자재 등록
 
 ### 2. 발주 프로세스
 1. "발주 관리" 메뉴에서 "발주 생성" 클릭
 2. 공급업체 선택
-3. 발주 항목 추가 (브자재, 수량, 단가)
+3. 발주 항목 추가 (부자재, 수량, 단가)
 4. 발주 생성 완료
 
 ### 3. 입고 프로세스
@@ -190,6 +190,56 @@ http://localhost:3000
 - **안전재고 경고**: 안전재고 미만 품목 실시간 모니터링
 - **직관적인 UI**: 탭 기반 네비게이션으로 쉬운 사용
 - **반응형 디자인**: 모바일/태블릿에서도 사용 가능
+
+## 인터넷 배포 방법
+
+### Render.com 무료 배포 (추천)
+
+Render.com을 사용하면 무료로 인터넷에 배포할 수 있습니다.
+
+#### 1. Render.com 계정 생성
+1. [Render.com](https://render.com) 접속
+2. GitHub 계정으로 가입
+
+#### 2. 새 Web Service 생성
+1. Dashboard에서 "New +" 클릭 → "Web Service" 선택
+2. GitHub 저장소 연결
+3. 이 저장소 선택
+
+#### 3. 설정
+```
+Name: subsidiary-materials-inventory (원하는 이름)
+Environment: Node
+Build Command: npm install
+Start Command: npm start
+Plan: Free
+```
+
+#### 4. 배포
+- "Create Web Service" 클릭
+- 자동으로 빌드 및 배포 시작
+- 완료되면 `https://your-app-name.onrender.com` 주소로 접속 가능
+
+#### 주의사항
+- 무료 플랜은 15분간 활동이 없으면 자동으로 sleep 모드로 전환됩니다
+- Sleep 후 첫 접속 시 재시작에 30초~1분 정도 소요됩니다
+- 데이터베이스(SQLite)는 재배포 시 초기화될 수 있으니, 중요한 데이터는 백업하세요
+
+### 기타 배포 옵션
+
+#### Railway.app
+- 무료 $5 크레딧 제공
+- GitHub 연동 자동 배포
+- [Railway.app](https://railway.app)
+
+#### Heroku
+- 무료 플랜 종료 (유료만 가능)
+- 간단한 CLI 도구
+
+#### AWS EC2 / DigitalOcean
+- 완전한 서버 제어
+- 월 $5~ 비용 발생
+- 직접 서버 관리 필요
 
 ## 향후 개발 계획
 

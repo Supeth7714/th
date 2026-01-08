@@ -21,9 +21,9 @@ const db = new sqlite3.Database('./inventory.db', (err) => {
   }
 });
 
-// ============ 브자재 API ============
+// ============ 부자재 API ============
 
-// 브자재 목록 조회
+// 부자재 목록 조회
 app.get('/api/materials', (req, res) => {
   const query = 'SELECT * FROM raw_materials ORDER BY code';
   db.all(query, [], (err, rows) => {
@@ -35,7 +35,7 @@ app.get('/api/materials', (req, res) => {
   });
 });
 
-// 브자재 상세 조회
+// 부자재 상세 조회
 app.get('/api/materials/:id', (req, res) => {
   const query = 'SELECT * FROM raw_materials WHERE id = ?';
   db.get(query, [req.params.id], (err, row) => {
@@ -47,7 +47,7 @@ app.get('/api/materials/:id', (req, res) => {
   });
 });
 
-// 브자재 추가
+// 부자재 추가
 app.post('/api/materials', (req, res) => {
   const { code, name, specification, unit, standard_price, safety_stock } = req.body;
   const query = `INSERT INTO raw_materials (code, name, specification, unit, standard_price, safety_stock)
@@ -58,11 +58,11 @@ app.post('/api/materials', (req, res) => {
       res.status(500).json({ error: err.message });
       return;
     }
-    res.json({ id: this.lastID, message: '브자재가 추가되었습니다.' });
+    res.json({ id: this.lastID, message: '부자재가 추가되었습니다.' });
   });
 });
 
-// 브자재 수정
+// 부자재 수정
 app.put('/api/materials/:id', (req, res) => {
   const { code, name, specification, unit, standard_price, safety_stock } = req.body;
   const query = `UPDATE raw_materials
@@ -75,11 +75,11 @@ app.put('/api/materials/:id', (req, res) => {
       res.status(500).json({ error: err.message });
       return;
     }
-    res.json({ message: '브자재가 수정되었습니다.' });
+    res.json({ message: '부자재가 수정되었습니다.' });
   });
 });
 
-// 브자재 삭제
+// 부자재 삭제
 app.delete('/api/materials/:id', (req, res) => {
   const query = 'DELETE FROM raw_materials WHERE id = ?';
   db.run(query, [req.params.id], (err) => {
@@ -87,7 +87,7 @@ app.delete('/api/materials/:id', (req, res) => {
       res.status(500).json({ error: err.message });
       return;
     }
-    res.json({ message: '브자재가 삭제되었습니다.' });
+    res.json({ message: '부자재가 삭제되었습니다.' });
   });
 });
 
@@ -419,7 +419,7 @@ app.get('/api/inventory/:materialId/transactions', (req, res) => {
 app.get('/api/dashboard', (req, res) => {
   const stats = {};
 
-  // 총 브자재 수
+  // 총 부자재 수
   db.get('SELECT COUNT(*) as count FROM raw_materials', [], (err, row) => {
     stats.totalMaterials = row ? row.count : 0;
 

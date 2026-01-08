@@ -3,16 +3,16 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>브자재 발주 입고 관리 시스템</title>
+  <title>부자재 발주 입고 관리 시스템</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
   <nav class="navbar">
     <div class="nav-container">
-      <h1 class="nav-title">브자재 관리 시스템</h1>
+      <h1 class="nav-title">부자재 관리 시스템</h1>
       <ul class="nav-menu">
         <li><a href="#dashboard" class="nav-link active" onclick="showPage('dashboard')">대시보드</a></li>
-        <li><a href="#materials" class="nav-link" onclick="showPage('materials')">브자재 관리</a></li>
+        <li><a href="#materials" class="nav-link" onclick="showPage('materials')">부자재 관리</a></li>
         <li><a href="#suppliers" class="nav-link" onclick="showPage('suppliers')">공급업체 관리</a></li>
         <li><a href="#orders" class="nav-link" onclick="showPage('orders')">발주 관리</a></li>
         <li><a href="#receiving" class="nav-link" onclick="showPage('receiving')">입고 관리</a></li>
@@ -27,7 +27,7 @@
       <h2>대시보드</h2>
       <div class="stats-grid">
         <div class="stat-card">
-          <div class="stat-label">전체 브자재</div>
+          <div class="stat-label">전체 부자재</div>
           <div class="stat-value" id="stat-total-materials">-</div>
         </div>
         <div class="stat-card warning">
@@ -61,24 +61,24 @@
       </table>
     </div>
 
-    <!-- 브자재 관리 페이지 -->
+    <!-- 부자재 관리 페이지 -->
     <div id="materials" class="page">
       <div class="page-header">
-        <h2>브자재 관리</h2>
-        <button class="btn btn-primary" onclick="showMaterialForm()">+ 브자재 추가</button>
+        <h2>부자재 관리</h2>
+        <button class="btn btn-primary" onclick="showMaterialForm()">+ 부자재 추가</button>
       </div>
 
       <div id="material-form" class="form-container" style="display: none;">
-        <h3 id="material-form-title">브자재 추가</h3>
+        <h3 id="material-form-title">부자재 추가</h3>
         <form id="materialForm">
           <input type="hidden" id="material-id">
           <div class="form-row">
             <div class="form-group">
-              <label>브자재 코드 *</label>
+              <label>부자재 코드 *</label>
               <input type="text" id="material-code" required>
             </div>
             <div class="form-group">
-              <label>브자재명 *</label>
+              <label>부자재명 *</label>
               <input type="text" id="material-name" required>
             </div>
           </div>
@@ -113,7 +113,7 @@
         <thead>
           <tr>
             <th>코드</th>
-            <th>브자재명</th>
+            <th>부자재명</th>
             <th>규격</th>
             <th>단위</th>
             <th>표준단가</th>
@@ -238,7 +238,7 @@
           <table class="data-table">
             <thead>
               <tr>
-                <th>브자재</th>
+                <th>부자재</th>
                 <th>수량</th>
                 <th>단가</th>
                 <th>금액</th>
@@ -314,7 +314,7 @@
           <table class="data-table">
             <thead>
               <tr>
-                <th>브자재</th>
+                <th>부자재</th>
                 <th>발주수량</th>
                 <th>기입고</th>
                 <th>입고수량</th>
@@ -356,7 +356,7 @@
         <thead>
           <tr>
             <th>코드</th>
-            <th>브자재명</th>
+            <th>부자재명</th>
             <th>규격</th>
             <th>단위</th>
             <th>현재고</th>

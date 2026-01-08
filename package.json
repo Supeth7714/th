@@ -1,7 +1,7 @@
 {
   "name": "raw-material-inventory-system",
   "version": "1.0.0",
-  "description": "브자재 발주 입고 관리 시스템",
+  "description": "부자재 발주 입고 관리 시스템",
   "main": "server.js",
   "scripts": {
     "start": "node server.js",

@@ -5,7 +5,7 @@ const dbPath = path.join(__dirname, '..', 'inventory.db');
 const db = new sqlite3.Database(dbPath);
 
 db.serialize(() => {
-  // 브자재 마스터 테이블
+  // 부자재 마스터 테이블
   db.run(`
     CREATE TABLE IF NOT EXISTS raw_materials (
       id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -127,7 +127,7 @@ db.serialize(() => {
 });
 
 function insertSampleData() {
-  // 샘플 브자재
+  // 샘플 부자재
   db.run(`INSERT OR IGNORE INTO raw_materials (code, name, specification, unit, standard_price, safety_stock, current_stock)
           VALUES ('RM001', '강판', 'SUS304 2.0T', 'KG', 5000, 100, 150)`);
   db.run(`INSERT OR IGNORE INTO raw_materials (code, name, specification, unit, standard_price, safety_stock, current_stock)

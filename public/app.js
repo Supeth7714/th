@@ -72,7 +72,7 @@ async function loadDashboard() {
   }
 }
 
-// ============ 브자재 관리 ============
+// ============ 부자재 관리 ============
 
 async function loadMaterials() {
   try {
@@ -81,7 +81,7 @@ async function loadMaterials() {
 
     const tbody = document.getElementById('materials-list');
     if (materials.length === 0) {
-      tbody.innerHTML = '<tr><td colspan="8">등록된 브자재가 없습니다.</td></tr>';
+      tbody.innerHTML = '<tr><td colspan="8">등록된 부자재가 없습니다.</td></tr>';
     } else {
       tbody.innerHTML = materials.map(m => `
         <tr>
@@ -102,13 +102,13 @@ async function loadMaterials() {
       `).join('');
     }
   } catch (error) {
-    console.error('브자재 로드 오류:', error);
+    console.error('부자재 로드 오류:', error);
   }
 }
 
 function showMaterialForm() {
   document.getElementById('material-form').style.display = 'block';
-  document.getElementById('material-form-title').textContent = '브자재 추가';
+  document.getElementById('material-form-title').textContent = '부자재 추가';
   document.getElementById('materialForm').reset();
   document.getElementById('material-id').value = '';
 }
@@ -124,7 +124,7 @@ async function editMaterial(id) {
     const material = await response.json();
 
     document.getElementById('material-form').style.display = 'block';
-    document.getElementById('material-form-title').textContent = '브자재 수정';
+    document.getElementById('material-form-title').textContent = '부자재 수정';
     document.getElementById('material-id').value = material.id;
     document.getElementById('material-code').value = material.code;
     document.getElementById('material-name').value = material.name;
@@ -133,7 +133,7 @@ async function editMaterial(id) {
     document.getElementById('material-price').value = material.standard_price || '';
     document.getElementById('material-safety-stock').value = material.safety_stock || '';
   } catch (error) {
-    console.error('브자재 로드 오류:', error);
+    console.error('부자재 로드 오류:', error);
   }
 }
 
@@ -148,7 +148,7 @@ async function deleteMaterial(id) {
     alert(result.message);
     loadMaterials();
   } catch (error) {
-    console.error('브자재 삭제 오류:', error);
+    console.error('부자재 삭제 오류:', error);
     alert('삭제 중 오류가 발생했습니다.');
   }
 }
@@ -181,7 +181,7 @@ document.getElementById('materialForm').addEventListener('submit', async (e) => 
     hideMaterialForm();
     loadMaterials();
   } catch (error) {
-    console.error('브자재 저장 오류:', error);
+    console.error('부자재 저장 오류:', error);
     alert('저장 중 오류가 발생했습니다.');
   }
 });
