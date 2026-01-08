@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>브자재 발주 입고 관리 시스템</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <nav class="navbar">
+    <div class="nav-container">
+      <h1 class="nav-title">브자재 관리 시스템</h1>
+      <ul class="nav-menu">
+        <li><a href="#dashboard" class="nav-link active" onclick="showPage('dashboard')">대시보드</a></li>
+        <li><a href="#materials" class="nav-link" onclick="showPage('materials')">브자재 관리</a></li>
+        <li><a href="#suppliers" class="nav-link" onclick="showPage('suppliers')">공급업체 관리</a></li>
+        <li><a href="#orders" class="nav-link" onclick="showPage('orders')">발주 관리</a></li>
+        <li><a href="#receiving" class="nav-link" onclick="showPage('receiving')">입고 관리</a></li>
+        <li><a href="#inventory" class="nav-link" onclick="showPage('inventory')">재고 현황</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <div class="container">
+    <!-- 대시보드 페이지 -->
+    <div id="dashboard" class="page active">
+      <h2>대시보드</h2>
+      <div class="stats-grid">
+        <div class="stat-card">
+          <div class="stat-label">전체 브자재</div>
+          <div class="stat-value" id="stat-total-materials">-</div>
+        </div>
+        <div class="stat-card warning">
+          <div class="stat-label">재고 부족</div>
+          <div class="stat-value" id="stat-low-stock">-</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">진행 중 발주</div>
+          <div class="stat-value" id="stat-pending-orders">-</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">공급업체</div>
+          <div class="stat-value" id="stat-suppliers">-</div>
+        </div>
+      </div>
+
+      <h3>최근 입고 내역</h3>
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>입고번호</th>
+            <th>발주번호</th>
+            <th>공급업체</th>
+            <th>입고일자</th>
+            <th>상태</th>
+          </tr>
+        </thead>
+        <tbody id="recent-receiving-list">
+          <tr><td colspan="5">데이터 로딩 중...</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- 브자재 관리 페이지 -->
+    <div id="materials" class="page">
+      <div class="page-header">
+        <h2>브자재 관리</h2>
+        <button class="btn btn-primary" onclick="showMaterialForm()">+ 브자재 추가</button>
+      </div>
+
+      <div id="material-form" class="form-container" style="display: none;">
+        <h3 id="material-form-title">브자재 추가</h3>
+        <form id="materialForm">
+          <input type="hidden" id="material-id">
+          <div class="form-row">
+            <div class="form-group">
+              <label>브자재 코드 *</label>
+              <input type="text" id="material-code" required>
+            </div>
+            <div class="form-group">
+              <label>브자재명 *</label>
+              <input type="text" id="material-name" required>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label>규격</label>
+              <input type="text" id="material-spec">
+            </div>
+            <div class="form-group">
+              <label>단위 *</label>
+              <input type="text" id="material-unit" required>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label>표준단가</label>
+              <input type="number" id="material-price" step="0.01">
+            </div>
+            <div class="form-group">
+              <label>안전재고</label>
+              <input type="number" id="material-safety-stock">
+            </div>
+          </div>
+          <div class="form-actions">
+            <button type="submit" class="btn btn-primary">저장</button>
+            <button type="button" class="btn btn-secondary" onclick="hideMaterialForm()">취소</button>
+          </div>
+        </form>
+      </div>
+
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>코드</th>
+            <th>브자재명</th>
+            <th>규격</th>
+            <th>단위</th>
+            <th>표준단가</th>
+            <th>안전재고</th>
+            <th>현재고</th>
+            <th>작업</th>
+          </tr>
+        </thead>
+        <tbody id="materials-list">
+          <tr><td colspan="8">데이터 로딩 중...</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- 공급업체 관리 페이지 -->
+    <div id="suppliers" class="page">
+      <div class="page-header">
+        <h2>공급업체 관리</h2>
+        <button class="btn btn-primary" onclick="showSupplierForm()">+ 공급업체 추가</button>
+      </div>
+
+      <div id="supplier-form" class="form-container" style="display: none;">
+        <h3 id="supplier-form-title">공급업체 추가</h3>
+        <form id="supplierForm">
+          <input type="hidden" id="supplier-id">
+          <div class="form-row">
+            <div class="form-group">
+              <label>업체코드 *</label>
+              <input type="text" id="supplier-code" required>
+            </div>
+            <div class="form-group">
+              <label>업체명 *</label>
+              <input type="text" id="supplier-name" required>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label>담당자</label>
+              <input type="text" id="supplier-contact">
+            </div>
+            <div class="form-group">
+              <label>전화번호</label>
+              <input type="text" id="supplier-phone">
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label>이메일</label>
+              <input type="email" id="supplier-email">
+            </div>
+          </div>
+          <div class="form-group">
+            <label>주소</label>
+            <textarea id="supplier-address" rows="2"></textarea>
+          </div>
+          <div class="form-group">
+            <label>비고</label>
+            <textarea id="supplier-notes" rows="2"></textarea>
+          </div>
+          <div class="form-actions">
+            <button type="submit" class="btn btn-primary">저장</button>
+            <button type="button" class="btn btn-secondary" onclick="hideSupplierForm()">취소</button>
+          </div>
+        </form>
+      </div>
+
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>코드</th>
+            <th>업체명</th>
+            <th>담당자</th>
+            <th>전화번호</th>
+            <th>이메일</th>
+            <th>작업</th>
+          </tr>
+        </thead>
+        <tbody id="suppliers-list">
+          <tr><td colspan="6">데이터 로딩 중...</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- 발주 관리 페이지 -->
+    <div id="orders" class="page">
+      <div class="page-header">
+        <h2>발주 관리</h2>
+        <button class="btn btn-primary" onclick="showOrderForm()">+ 발주 생성</button>
+      </div>
+
+      <div id="order-form" class="form-container" style="display: none;">
+        <h3>발주 생성</h3>
+        <form id="orderForm">
+          <div class="form-row">
+            <div class="form-group">
+              <label>발주번호 *</label>
+              <input type="text" id="order-no" required>
+            </div>
+            <div class="form-group">
+              <label>공급업체 *</label>
+              <select id="order-supplier" required>
+                <option value="">선택하세요</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label>발주일자 *</label>
+              <input type="date" id="order-date" required>
+            </div>
+            <div class="form-group">
+              <label>납기예정일</label>
+              <input type="date" id="order-expected-date">
+            </div>
+          </div>
+          <div class="form-group">
+            <label>비고</label>
+            <textarea id="order-notes" rows="2"></textarea>
+          </div>
+
+          <h4>발주 항목</h4>
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>브자재</th>
+                <th>수량</th>
+                <th>단가</th>
+                <th>금액</th>
+                <th><button type="button" class="btn btn-small" onclick="addOrderItem()">+ 추가</button></th>
+              </tr>
+            </thead>
+            <tbody id="order-items-list">
+            </tbody>
+          </table>
+          <div class="total-amount">
+            총액: <span id="order-total-amount">0</span>원
+          </div>
+
+          <div class="form-actions">
+            <button type="submit" class="btn btn-primary">발주 생성</button>
+            <button type="button" class="btn btn-secondary" onclick="hideOrderForm()">취소</button>
+          </div>
+        </form>
+      </div>
+
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>발주번호</th>
+            <th>공급업체</th>
+            <th>발주일자</th>
+            <th>납기예정일</th>
+            <th>총액</th>
+            <th>상태</th>
+            <th>작업</th>
+          </tr>
+        </thead>
+        <tbody id="orders-list">
+          <tr><td colspan="7">데이터 로딩 중...</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- 입고 관리 페이지 -->
+    <div id="receiving" class="page">
+      <div class="page-header">
+        <h2>입고 관리</h2>
+        <button class="btn btn-primary" onclick="showReceivingForm()">+ 입고 처리</button>
+      </div>
+
+      <div id="receiving-form" class="form-container" style="display: none;">
+        <h3>입고 처리</h3>
+        <form id="receivingForm">
+          <div class="form-row">
+            <div class="form-group">
+              <label>입고번호 *</label>
+              <input type="text" id="receiving-no" required>
+            </div>
+            <div class="form-group">
+              <label>발주선택 *</label>
+              <select id="receiving-order" required onchange="loadOrderItems()">
+                <option value="">선택하세요</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label>입고일자 *</label>
+              <input type="date" id="receiving-date" required>
+            </div>
+          </div>
+          <div class="form-group">
+            <label>비고</label>
+            <textarea id="receiving-notes" rows="2"></textarea>
+          </div>
+
+          <h4>입고 항목</h4>
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>브자재</th>
+                <th>발주수량</th>
+                <th>기입고</th>
+                <th>입고수량</th>
+                <th>검수결과</th>
+              </tr>
+            </thead>
+            <tbody id="receiving-items-list">
+              <tr><td colspan="5">발주를 선택하세요</td></tr>
+            </tbody>
+          </table>
+
+          <div class="form-actions">
+            <button type="submit" class="btn btn-primary">입고 처리</button>
+            <button type="button" class="btn btn-secondary" onclick="hideReceivingForm()">취소</button>
+          </div>
+        </form>
+      </div>
+
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>입고번호</th>
+            <th>발주번호</th>
+            <th>공급업체</th>
+            <th>입고일자</th>
+            <th>상태</th>
+          </tr>
+        </thead>
+        <tbody id="receiving-list">
+          <tr><td colspan="5">데이터 로딩 중...</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- 재고 현황 페이지 -->
+    <div id="inventory" class="page">
+      <h2>재고 현황</h2>
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>코드</th>
+            <th>브자재명</th>
+            <th>규격</th>
+            <th>단위</th>
+            <th>현재고</th>
+            <th>안전재고</th>
+            <th>재고상태</th>
+          </tr>
+        </thead>
+        <tbody id="inventory-list">
+          <tr><td colspan="7">데이터 로딩 중...</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
