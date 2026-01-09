@@ -26,18 +26,19 @@ if not exist "node_modules" (
 
 echo 서버를 시작합니다...
 echo.
-echo 프로그램 접속 주소: http://localhost:3000
+echo ========================================
+echo 서버가 시작되면 아래 주소로 접속하세요:
 echo.
-echo [안내] 서버가 완전히 시작되면 브라우저가 자동으로 열립니다.
-echo        (약 10-15초 소요)
-echo.
-echo 종료하려면 이 창에서 Ctrl+C를 누르세요.
+echo          http://localhost:3000
 echo.
 echo ========================================
 echo.
+echo [중요] 이 메시지가 나타난 후:
+echo        "Server is running on http://localhost:3000"
+echo        위 메시지를 확인하고 브라우저에서 접속하세요!
+echo.
+echo 종료하려면 이 창에서 Ctrl+C를 누르세요.
+echo.
 
-REM 15초 후 브라우저 자동 실행 (서버 시작 대기)
-start "" cmd /c "timeout /t 15 /nobreak > nul && start http://localhost:3000"
-
-REM 서버 시작
+REM 서버 시작 (브라우저 자동 실행 없음)
 call npm start
